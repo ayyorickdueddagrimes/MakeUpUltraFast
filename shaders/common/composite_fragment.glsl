@@ -54,6 +54,19 @@ uniform ivec2 eyeBrightnessSmooth;
     #endif
 #endif
 
+#if RAIN_WETNESS == 1 && !defined NETHER && !defined THE_END
+    #if !(VOL_LIGHT == 1 && !defined NETHER) && !(VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+        uniform mat4 gbufferProjectionInverse;
+        uniform mat4 gbufferModelViewInverse;
+        uniform mat4 gbufferModelView;
+    #endif
+    uniform mat4 gbufferProjection;
+    uniform float pixelSizeX;
+    uniform float pixelSizeY;
+    uniform sampler2D noisetex;
+    uniform vec3 cameraPosition;
+#endif
+
 /* Ins / Outs */
 
 varying vec2 texcoord;
@@ -91,6 +104,11 @@ varying float exposure;
 #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
     #include "/lib/dither.glsl"
     #include "/lib/volumetric_light.glsl"
+#endif
+
+#if RAIN_WETNESS == 1 && !defined NETHER && !defined THE_END
+    #include "/lib/projection_utils.glsl"
+    #include "/lib/rain_wetness.glsl"
 #endif
 
 // MAIN FUNCTION ------------------
@@ -222,6 +240,11 @@ void main() {
             blockColor.rgb =
                 mix(blockColor.rgb, vec3(0.85, 0.9, 0.6), clamp(screen_distance, 0.0, 1.0));
         }
+    #endif
+
+    #if RAIN_WETNESS == 1 && !defined NETHER && !defined THE_END
+        float wetDither = wetnessDither(gl_FragCoord.xy);
+        applyRainWetness(blockColor.rgb, texcoord, d, wetDither);
     #endif
 
     #ifdef BLOOM
