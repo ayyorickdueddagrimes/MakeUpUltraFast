@@ -61,6 +61,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define MOTION_BLUR_SAMPLES 4 // [3 4 5 6 7 8] Motion blur samples
 #define SUN_REFLECTION 1 // [0 1] Enable sun (or moon) reflection on water and glass
 
+#define RAIN_WETNESS 1 // [0 1] Wet ground darkens and grows reflective puddles when it rains.
+#define WETNESS_PUDDLE_SCALE 0.06 // [0.02 0.04 0.06 0.08 0.10 0.12] Puddle noise pattern scale. Lower = larger puddles.
+#define WETNESS_REFLECTION_STRENGTH 0.55 // [0.20 0.30 0.40 0.55 0.70 0.85 1.00] Maximum reflectivity of a fully formed puddle.
+#define WETNESS_RAYMARCH_STEPS 12 // [6 8 10 12 16 20] Raymarch steps for puddle reflections (higher = better quality, higher cost).
+
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0]  Shadow blur intensity
 #define COLORED_SHADOW // Attempts to tint the shadow of translucent objects, as well as the associated volumetric light (if active).
